@@ -66,37 +66,37 @@ Bigcommerce is the world’s leading e-commerce platform, powering more than 30,
 ## Screenshots ##
 
 ###1. This is the Plugin settings page.###
-![This is the Plugin settings page.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-1.png)
+![This is the Plugin settings page.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-1.png)
 
 ###2. This is the icon you click to open the Add Product popup.###
-![This is the icon you click to open the Add Product popup.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-2.png)
+![This is the icon you click to open the Add Product popup.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-2.png)
 
 ###3. This is the Add Product popup showing how to add a listing of products by category.###
-![This is the Add Product popup showing how to add a listing of products by category.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-3.png)
+![This is the Add Product popup showing how to add a listing of products by category.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-3.png)
 
 ###4. This is the product category shortcode that gets created by the Add Product popup.###
-![This is the product category shortcode that gets created by the Add Product popup.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-4.png)
+![This is the product category shortcode that gets created by the Add Product popup.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-4.png)
 
 ###5. This is an example page or post showing a listing of products from a category.###
-![This is an example page or post showing a listing of products from a category.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-5.png)
+![This is an example page or post showing a listing of products from a category.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-5.png)
 
 ###6. This is the Add Product popup showing how to create a product link.###
-![This is the Add Product popup showing how to create a product link.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-6.png)
+![This is the Add Product popup showing how to create a product link.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-6.png)
 
 ###7. This is the product link shortcode that gets created by the Add Product popup.###
-![This is the product link shortcode that gets created by the Add Product popup.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-7.png)
+![This is the product link shortcode that gets created by the Add Product popup.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-7.png)
 
 ###8. This is the icon you click to open the Add Media popup containing the Bigcommerce tab.###
-![This is the icon you click to open the Add Media popup containing the Bigcommerce tab.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-8.png)
+![This is the icon you click to open the Add Media popup containing the Bigcommerce tab.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-8.png)
 
 ###9. This is the Add Media popup Bigcommerce tab, to insert product images into the pages/posts editor.###
-![This is the Add Media popup Bigcommerce tab, to insert product images into the pages/posts editor.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-9.png)
+![This is the Add Media popup Bigcommerce tab, to insert product images into the pages/posts editor.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-9.png)
 
 ###10. This is the inserted product image within the pages/posts editor, which can be further adjusted using the WordPress image editor tool.###
-![This is the inserted product image within the pages/posts editor, which can be further adjusted using the WordPress image editor tool.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-10.png)
+![This is the inserted product image within the pages/posts editor, which can be further adjusted using the WordPress image editor tool.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-10.png)
 
 ###11. This is an example page or post showing a product image and link to a Bigcommerce product page.###
-![This is an example page or post showing a product image and link to a Bigcommerce product page.](http://s.wordpress.org/extend/plugins/bigcommerce/screenshot-11.png)
+![This is an example page or post showing a product image and link to a Bigcommerce product page.](http://s.wordpress.org/extend/plugins/interspire-bigcommerce/screenshot-11.png)
 
 
 ## Frequently Asked Questions ##
