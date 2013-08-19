@@ -27,8 +27,8 @@ class Bigcommerce_display {
 		if( $target ) { $target = " target='{$target}'"; };
 		if( $nofollow ) { $nofollow = " nofollow='nofollow'"; };
 		$extra = "{$rel}{$target}{$nofollow}";
-		$storepath = Bigcommerce_parser::storepath();
-		return "<a href='{$storepath}{$link}/'{$extra}>{$content}</a>";
+		$storepath = untrailingslashit( Bigcommerce_parser::storepath() );
+		return "<a href='{$storepath}{$link}'{$extra}>{$content}</a>";
 	}
 
 	// Give Thanks Footer Link

@@ -7,15 +7,15 @@ if ( ! $images ) {
 }
 
 ?>
-
+<style type="text/css">#wpint_loading_images { display: none; }</style>
 <div style="margin: 20px;">
-
 	<div class="tablenav">
 		<div class="tablenav-pages" style="float:left">
 			<span class="pagination-links">
 				<?php echo $paginate_links; ?>
 			</span>
 		</div>
+		<span style="float:right;"><?php _e(sprintf('<a href="%s">%s</a>', add_query_arg(array('bc-cache' => true)), __('Refresh Images'))); ?></span>
 		<span class="displaying-num" style="float:right"><?php _e(sprintf('%d %s', $total_images, _n( 'image','images', $total_images, 'wpinterspire' ))); ?></span>
 	</div>
 

@@ -1,10 +1,10 @@
 === Bigcommerce ===
 Contributors: katzwebdesign, katzwebservices
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=Bigcommerce%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
-Tags: ecommerce, interspire, bigcommerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant, big commerce
+Tags: ecommerce, interspire, bigcommerce, big commerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant
 Requires at least: 3.2
-Tested up to: 3.5.1
-Stable tag: 1.6
+Tested up to: 3.6
+Stable tag: 1.7
 License: GPLv2
 
 Integrate Bigcommerce hosted eCommerce shopping cart product images and links into WordPress.
@@ -189,6 +189,14 @@ function bigcommerce_product_row( $data, $storepath ) {
 
 == Changelog ==
 
+= 1.7 on 2013-08-19 =
+* Improved: Now uses a script that allows searching of products and categories to insert
+* Improved: Now you can watch the generation of the product and category list while it's processing. No more guessing whether it's working or not.
+* Fixed: Product links are now properly fetched from the `custom_url` parameter.
+* Fixed: Cache would always need to be rebuilt
+* Fixed: Only 50 categories were retrieved at once
+* Fixed: Child categories were not properly displayed
+
 = 1.6 on 2013-03-14 =
 * Improved and fixed issues with the insert image ("Add Media") functionality
 	- Now properly paginates based on products with images, not number of products
@@ -285,6 +293,14 @@ function bigcommerce_product_row( $data, $storepath ) {
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.7 on 2013-08-19 =
+* Improved: Now uses a script that allows searching of products and categories to insert
+* Improved: Now you can watch the generation of the product and category list while it's processing. No more guessing whether it's working or not.
+* Fixed: Product links are now properly fetched from the `custom_url` parameter.
+* Fixed: Cache would always need to be rebuilt
+* Fixed: Only 50 categories were retrieved
+* Fixed: Child categories were not properly displayed
 
 = 1.6 on 2013-03-14 =
 * Improved and fixed issues with the insert image ("Add Media") functionality

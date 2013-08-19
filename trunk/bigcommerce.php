@@ -4,7 +4,7 @@ Plugin Name: Bigcommerce
 Plugin URI: http://www.seodenver.com/interspire-bigcommerce-wordpress/
 Description: Integrate Bigcommerce products into your WordPress pages and posts.
 Author: Katz Web Services, Inc.
-Version: 1.6
+Version: 1.7
 Author URI: http://www.katzwebservices.com
 License: GPLv2
 
@@ -27,6 +27,7 @@ require_once( 'lib/class.display.php' );
 require_once( 'lib/class.media.php' );
 require_once( 'lib/class.parser.php' );
 require_once( 'lib/class.settings.php' );
+require_once( 'lib/class.ajax.php' );
 
 // WP Hooks - Settings
 add_action( 'admin_init', array( 'Bigcommerce_settings', 'admin_init' ) );
@@ -40,6 +41,8 @@ add_filter(
 add_action( 'wp_footer', array( 'Bigcommerce_display', 'wp_footer' ) );
 
 // WP Hooks - Media
+add_action( 'wp_ajax_bigcommerce_rebuild', array( 'Bigcommerce_ajax', 'BuildAjax'));
+add_action( 'admin_enqueue_scripts', array( 'Bigcommerce_media', 'print_scripts') );
 add_action( 'admin_footer',  array( 'Bigcommerce_media', 'admin_footer' ) );
 add_action( 'media_buttons_context', array( 'Bigcommerce_media', 'media_buttons_context' ) );
 add_filter( 'media_upload_tabs', array( 'Bigcommerce_media', 'media_upload_tabs' ), 11 );
@@ -51,5 +54,3 @@ add_shortcode( 'Bigcommerce', array( 'Bigcommerce_display', 'shortcode' ) );
 add_shortcode( 'bigcommerce', array( 'Bigcommerce_display', 'shortcode' ) );
 add_shortcode( 'Interspire', array( 'Bigcommerce_display', 'shortcode' ) );
 add_shortcode( 'interspire', array( 'Bigcommerce_display', 'shortcode' ) );
-
-?>

@@ -1,9 +1,8 @@
 <div class="wrap">
-	<div id="icon-plugins" class="icon32"></div>
 
-	<h2>Bigcommerce for WordPress</h2>
+	<h2 style="line-height:48px;"><img class="alignleft" alt="" src="<?php echo plugins_url('favicon.png', BIGCOMMERCE_PLUGIN_FILE); ?>" width="48" height="48" /> Bigcommerce for WordPress</h2>
 
-	<?php Bigcommerce_settings::show_configuration_check(); ?>
+	<?php $is_cache_built = Bigcommerce_settings::show_configuration_check(); ?>
 
 	<hr />
 
@@ -11,15 +10,15 @@
 
 	<p>
 		<?php
-		echo get_option( 'wpinterspire_categoryselect' )
-			? 'Your cache has been built:</p>'
-				. get_option( 'wpinterspire_categoryselect' )
-				. get_option( 'wpinterspire_productselect' )
+
+		echo $is_cache_built ? 'Your cache has been built:</p>'
+				. '<p>'.Bigcommerce_parser::BuildCategoriesSelect( false ).'</p>'
+				. '<p>'.Bigcommerce_parser::BuildProductsSelect( false ).'</p>'
 				. '<p><strong>Has the list changed?</strong>'
 			: 'Your cache has not yet been built.';
 		?>
-		<a href='<?php echo wp_nonce_url( admin_url( 'options-general.php?page=bigcommerce&amp;rebuild=all' ), 'rebuild' ); ?>' class='button'>
-			<?php echo get_option( 'wpinterspire_productselect' ) ? 'Re-build your products list' : 'Build your products list'; ?>
+		<a href='<?php echo admin_url( 'admin-ajax.php?action=bigcommerce_rebuild&amp;TB_iframe=true&amp;width=600&amp;height=800' ); ?>' class='thickbox' title="<?php echo  $is_cache_built ? 'Re-build your products list' : 'Build your products list'; ?>">
+			<?php echo  $is_cache_built ? 'Re-build your Bigcommerce lists' : 'Build your products list'; ?>
 		</a><br />
 		<small>
 			<?php _e( 'Note: this may take some time, depending on the size of your products.', 'wpinterspire' ); ?>
@@ -106,12 +105,26 @@
 				</tr>
 				<tr>
 					<th scope="row">
+						<?php _e( 'Only Display Visible Products In Link Creator', 'wpinterspire' ); ?>:
+					</th>
+					<td>
+						<input type='checkbox' name='wpinterspire[hideinvisible]' id='wpinterspire_hideinvisible' value='yes' <?php echo ( ( isset( $options->hideinvisible ) && $options->hideinvisible == 'yes' ) ? 'checked=checked' : '' ); ?> />
+						<label for="wpinterspire_hideinvisible">
+							<?php _e( 'Only show visible products in the "Add Bigcommerce Link" feature.', 'wpinterspire'); ?>
+						</label><br />
+						<small>
+							<?php _e( 'You will need to rebuild the products list after changing this setting.', 'wpinterspire'); ?>
+						</small>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
 						<?php _e( 'Give Thanks', 'wpinterspire' ); ?>:
 					</th>
 					<td>
 						<input type='checkbox' name='wpinterspire[showlink]' id='wpinterspire_showlink' value='yes' <?php echo ( ( isset( $options->showlink ) && $options->showlink == 'yes' ) ? 'checked=checked' : '' ); ?> />
 						<label for="wpinterspire_showlink">
-							<?php _e( 'Help show the love by telling the world you use this Plugin.', 'wpinterspire'); ?>
+							<?php _e( 'Help show the love by telling the world you use this plugin.', 'wpinterspire'); ?>
 						</label><br />
 						<small>
 							<?php _e( 'A link will be added to your footer.', 'wpinterspire'); ?>
@@ -127,4 +140,14 @@
 				value="<?php _e( 'Save Changes', 'wpinterspire' ); ?>" />
 		</p>
 	</form>
+	<style>
+	.wrap select {width: 400px; max-width: 400px; }
+	</style>
+	<script>
+	jQuery(document).ready(function($) {
+		$('.wrap select').select2({
+			width: 'element'
+		});
+	});
+	</script>
 </div>

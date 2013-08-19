@@ -1,5 +1,18 @@
+<style type="text/css">
+	.bigcommerce_modal select {
+		max-width: 400px;
+		width: 400px;
+	}
+</style>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$('.bigcommerce_modal select').select2({
+			width: 'element'
+		});
+	});
+</script>
 <div id="interspire_select_product" style="display:none;">
-	<div class="wrap">
+	<div class="wrap bigcommerce_modal">
 	<div id="media-upload">
 
 		<?php

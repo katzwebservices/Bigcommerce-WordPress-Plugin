@@ -2,19 +2,46 @@
 
 // Plugin Settings Class
 class Bigcommerce_settings {
+	static $options;
 	static $configured = false;
 	static $errors = array();
 
 	// Gets Stored Settings, Failover To Defaults
 	function get_options() {
-		return ( object ) get_option(
+		if(!empty(self::$options)) {
+			return self::$options;
+		}
+
+		self::$options = ( object ) get_option(
 			'wpinterspire', array(
 				'username' => '',
 				'xmltoken' => '',
 				'storepath' => '',
 				'showlink' => '',
+				'hideinvisible' => 'yes'
 			)
 		);
+
+		return self::$options;
+	}
+
+	// Gets Stored Settings, Failover To Defaults
+	function get_option($key) {
+
+		$options = self::get_options();
+
+		if(isset($options->{$key})) {
+
+			if($options->{$key} === 'yes') {
+				return true;
+			} elseif($options->{$key} === 'no') {
+				return false;
+			}
+
+			return $options->{$key};
+		}
+
+		return NULL;
 	}
 
 	// Tied To WP Hook By The Same Name
@@ -95,21 +122,23 @@ class Bigcommerce_settings {
 		// Configured
 		if( self::$configured ) {
 
+			$built = self::is_cache_built();
+
 			// Configured Message
 			$content = __( 'Your Bigcommerce API settings are configured properly.', 'wpinterspire' )
 				. (
 
 					// Add Caching Status Messages
-					( ! get_option( 'wpinterspire_productselect' ) )
+					!$built
 					? __( ' However, your products and categories have not yet been built.', 'wpinterspire' )
 					: __( ' When editing posts, look for the ', 'wpinterspire' )
 						. '<img src="' . plugins_url( 'favicon.png', dirname( __FILE__ ) )
 						. '" width="16" height="16" alt="' . __( 'Bigcommerce icon', 'wpinterspire') . '" />'
 						. __( ' icon. Click it to add a product to your post or page.', 'wpinterspire' )
 				);
-
 		// Unconfigured
 		} else {
+			$built = false;
 			$content =  __( 'Your Bigcommerce API settings are not configured properly.', 'wpinterspire' );
 
 			// Add Specific Errors
@@ -122,6 +151,14 @@ class Bigcommerce_settings {
 		echo self::make_notice_box(
 			$content, ( ( self::$configured ) ? false : true )
 		);
+
+		return $built;
+	}
+
+	function is_cache_built() {
+		$cat_select = get_option( 'wpinterspire_categoryselect' );
+		$prod_select = get_option( 'wpinterspire_productselect' );
+		return (!empty($cat_select) && !empty($prod_select));
 	}
 
 	// Generic Notice Box Maker

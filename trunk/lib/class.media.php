@@ -22,7 +22,7 @@ class Bigcommerce_media {
 			<style>
 			.wp-media-buttons .wpinterspire { padding-left: 3px!important; }
 			.wp-media-buttons .wpinterspire span.wp-media-buttons-icon {
-				background: transparent url(' . plugins_url( 'favicon-small.png', dirname( __FILE__ ) ) . ') left top no-repeat;
+				background: transparent url(' . plugins_url( 'favicon-small.png', BIGCOMMERCE_PLUGIN_FILE ) . ') left top no-repeat;
 				width: 12px;
 				height:17px;
 			}
@@ -34,14 +34,34 @@ class Bigcommerce_media {
 		';
 	}
 
+	// Is the current page a page where we want to load the media functions?
+	function is_bigcommerce_page() {
+		global $pagenow,$post;
+		return (
+			(in_array($pagenow, array('post.php', 'post-new.php')) && isset($post) && !empty($post->ID)) ||
+			($pagenow === 'options-general.php' && isset($_GET['page']) && $_GET['page'] === 'bigcommerce')
+		);
+	}
 	// Tied To WP Hook By The Same Name - Admin Area Footer
 	function admin_footer() {
+		if(!self::is_bigcommerce_page()) { return; }
 		$storepath = Bigcommerce_parser::storepath();
 		require( dirname( __FILE__ ) . '/../views/mce-popup.html.php' );
 	}
 
+	function print_scripts() {
+		global $pagenow,$post;
+
+		if(!self::is_bigcommerce_page()) { return; }
+		wp_enqueue_script('thickbox');
+		wp_enqueue_script( 'select2', plugins_url( 'select2/select2.min.js', BIGCOMMERCE_PLUGIN_FILE ), array('jquery'), false, true );
+		wp_enqueue_style( 'select2', plugins_url( 'select2/select2.css', BIGCOMMERCE_PLUGIN_FILE ));
+	}
+
 	// Presents Product Image Choices
 	function media_process() {
+
+		echo sprintf('<div class="updated" style="margin-top:20px" id="wpint_loading_images"><p>%s</p></div>', __('Loading images&hellip;', 'wpinterspire'));
 
 		$Products = Bigcommerce_api::GetProducts();
 
@@ -69,25 +89,28 @@ class Bigcommerce_media {
 	   	$end = $start + ( $perpage - 1 );
 		$total_images = 0;
 
-		$all_images = maybe_unserialize(get_option( 'wpinterspire_product_images'));
+		$all_images = isset($_GET['bc-cache']) ? false : maybe_unserialize(get_option( 'wpinterspire_product_images'));
 
-		if(empty($all_images) || isset($_GET['cache'])) {
+		if(empty($all_images) || isset($_GET['bc-cache'])) {
 
 			// Loop Products
 			$all_images = array();
+
 			foreach( $Products as $product ) {
+
 				// Skip Products Without Images
-				if( empty( $product->images->link ) ) { continue; }
-				$path = Bigcommerce_parser::GetImage( $product->images->link );
+				$path = Bigcommerce_parser::GetImage( $product );
+
 				if(!$path) { continue; }
+
 				$all_images[(string)$product->id] = array(
 					'productid'	=> (string)$product->id,
 					'name' => (string)$product->name,
 					'path' => (string)$path,
 				);
 			}
-
-			update_option( 'wpinterspire_product_images', $all_images);
+			delete_option( 'wpinterspire_product_images' );
+			add_option( 'wpinterspire_product_images', $all_images, '', 'no');
 		}
 
 		$total_images = sizeof($all_images);
@@ -101,7 +124,7 @@ class Bigcommerce_media {
 			$images[$image['productid']] = $image;
 		}
 
-		$paginate_links = paginate_links(
+		$paginate_links = str_replace(array('&amp;bc-cache=1', '&bc-cache=1'), '', paginate_links(
 			array(
 				'base' => add_query_arg( 'paged', '%#%' ),
 				'show_all' => true,
@@ -109,7 +132,7 @@ class Bigcommerce_media {
 				'total' => ceil( $total_images / $perpage ),
 				'current' => $page,
 			)
-		);
+		));
 
 		// Output
 		require( dirname( __FILE__ ) . '/../views/media.html.php' );

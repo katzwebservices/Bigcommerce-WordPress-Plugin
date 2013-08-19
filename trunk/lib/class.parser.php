@@ -14,9 +14,7 @@ class Bigcommerce_parser {
 		$options->storepath = str_replace( '/xml.php', '/api/v2/', $options->storepath );
 
 		// Ensure The API URL Has a Trailing Slash
-		$options->storepath = (
-			substr( $options->storepath, ( strlen( $options->storepath ) - 1 ), 1 ) != '/'
-		) ? "{$options->storepath}/" : $options->storepath;
+		$options->storepath = trailingslashit( $options->storepath );
 
 		// Ensure The API URL Contains The API Path
 		$options->storepath = ( strstr( $options->storepath, '/api/v2/' ) )
@@ -27,6 +25,30 @@ class Bigcommerce_parser {
 		return ( $api )
 			? $options->storepath
 			: str_replace( '/api/v2/', '/', $options->storepath );
+	}
+
+	// Converts JSON To Object
+	public function JSONToObject( $json ) {
+
+		// Try To Convert
+		try {
+			$response = json_decode($json);
+			return $response;
+
+		// Catch Error In Conversion
+		} catch ( Exception $error ) {
+			Bigcommerce_settings::$errors[] = $error;
+			return false;
+		}
+
+		// Handle Bad Response
+		if( isset( $response->errors->error[0]->message ) ) {
+			Bigcommerce_settings::$errors[] = $response->errors->error[0]->message;
+			return false;
+		}
+
+		// Handle Good Response
+		return isset( $response->$test ) ? $response->$test : false;
 	}
 
 	// Converts XML To Object
@@ -53,18 +75,36 @@ class Bigcommerce_parser {
 		return isset( $response->$test ) ? $response->$test : false;
 	}
 
-	// Gets Live Image URL
-	public function GetImage( $link ) {
-		$image = Bigcommerce_api::GetDetail( substr( $link, 1 ) );
-		if(!$image) { return false; }
-		$xml = self::XmlToObject( $image, 'image' );
-		$image = isset($xml->image) ? $xml->image : $xml;
-		$path = is_array($image) ? $image[0]->image_file : $image->image_file;
-		return self::storepath() . 'product_images/' . (string)$path;
+	// Get an array of all image paths
+	public function GetImages( $link, $all = false ) {
+		return self::GetImage($link, true);
 	}
 
+	// Gets Live Image URL
+	public function GetImage( $link, $all = false ) {
+		if(is_object($link)) {
+			if(!empty($link->images->url)) {
+				$link = $link->images->url;
+			} else {
+				return false;
+			}
+		}
+		$image = Bigcommerce_api::GetDetail( $link );
+		if(!$image) { return false; }
+		$images = self::JSONToObject( $image );
+		if(!$images) { return false; }
+		foreach((array)$images as $image) {
+			if(!empty($image->is_thumbnail) && empty($all)) {
+				return self::storepath() . 'product_images/' . (string)$image->image_file;
+			}
+			$output[] = self::storepath() . 'product_images/' . (string)$image->image_file;
+		}
+		if($all) { return $output; }
+	}
+
+
 	// Builds Select Box For Products
-	public function BuildProductsSelect( $rebuild ) {
+	public function BuildProductsSelect( $rebuild, $show_output = false) {
 
 		// Not Forcing Rebuild
 		if( ! $rebuild ) {
@@ -72,29 +112,44 @@ class Bigcommerce_parser {
 		}
 
 		// Get Products
-		if ( ! $items = Bigcommerce_api::GetProducts() ) { return false; }
+		$items = Bigcommerce_api::GetProducts( empty($rebuild), $show_output);
+
+		if ( empty($items) ) { return false; }
 
 		// Generate HTML Selector
 		$output = '
 			<select id="interspire_add_product_id">
 			<option value="" disabled="disabled" selected="selected">Products</option>
 		';
+
+		$hide_invisible = Bigcommerce_settings::get_option('hideinvisible');
+		#echo '<pre>';
+		#print_r($items);
+		#echo '</pre>';
+		#die();
 		foreach( $items as $item ) {
-			if( ! isset( $item->is_visible ) || ! $item->is_visible ) { continue; }
 			if( ! isset( $item->name ) ) { continue; }
-			$value = sanitize_title( $item->name );
+			$value = $item->custom_url;
 			$name = esc_html( $item->name );
-			$output .= "<option value='{$value}'>{$name}</option>";
+			$hidden = '';
+			if( ! isset( $item->is_visible ) || ! $item->is_visible) {
+				if($hide_invisible) { continue; }
+				$hidden = __(' (Not Visible in Store)', 'wpinterspire');
+			}
+			$output .= "<option value='{$value}'>{$name}{$hidden}</option>";
 		}
 		$output .= '</select>';
 
 		// Save HTML Selector To Cache
-		update_option( 'wpinterspire_productselect', $output );
+		// Delete first and add so it can specify no autoload.
+		delete_option( 'wpinterspire_productselect' );
+		add_option( 'wpinterspire_productselect', $output, '', 'no' );
+
 		return $output;
 	}
 
 	// Builds Select Box For Categories
-	public function BuildCategoriesSelect( $rebuild ) {
+	public function BuildCategoriesSelect( $rebuild, $show_output = false ) {
 
 		// Not Forcing Rebuild
 		if( ! $rebuild ) {
@@ -102,7 +157,7 @@ class Bigcommerce_parser {
 		}
 
 		// Get Products
-		if ( ! $items = Bigcommerce_api::GetCategories() ) { return false; }
+		if ( ! $items = Bigcommerce_api::GetCategories($rebuild, $show_output) ) { return false; }
 
 		// Generate HTML Selector
 		$output = '
@@ -111,15 +166,25 @@ class Bigcommerce_parser {
 		';
 		$categories = array();
 		$options = array();
+
+		// Build all cats for reference
+		$categories = array();
 		foreach( $items as $item ) {
-			$categories[(int) $item->id] = esc_html( $item->name );
-			if( ! isset( $item->is_visible ) || ! $item->is_visible ) { continue; }
+			$name = esc_html( $item->name );
+			$categories[(int) $item->id] = esc_html( $name );
+		}
+
+		foreach( $items as $item ) {
+			$name = esc_html( $item->name );
+
+			if( empty($item->is_visible) ) { continue; }
 			if( ! isset( $item->name ) ) { continue; }
 			$value = $item->id;
-			$name = esc_html( $item->name );
+
 			foreach( $item->parent_category_list as $val ) {
-				$parent = $categories[(int) $val->value];
-				if( $parent == $name ) { continue; }
+				if(empty($val)) { continue; }
+				$parent = $categories[(int) $val];
+				if( empty($parent) || $parent == $name ) { continue; }
 				$name = "{$parent} &gt; {$name}";
 			}
 			$options[$name] = "<option value='{$value}'>{$name}</option>";
@@ -129,7 +194,10 @@ class Bigcommerce_parser {
 		$output .= '</select>';
 
 		// Save HTML Selector To Cache
-		update_option( 'wpinterspire_categoryselect', $output );
+		// Delete first and add so it can specify no autoload.
+		delete_option( 'wpinterspire_categoryselect' );
+		add_option( 'wpinterspire_categoryselect', $output, '', 'no' );
+
 		return $output;
 	}
 
@@ -144,18 +212,19 @@ class Bigcommerce_parser {
 
 			foreach( $products as $product ) {
 				foreach( $product->categories as $product_category ) {
-					$product_category = intval( $product_category->value );
+
+					$product_category = isset($product_category->value) ? intval( $product_category->value ) : intval($product_category);
 
 					// Product Matches Category
-					if( $catid == $product_category ) {
+					if( (int)$catid === $product_category ) {
 
 						// Ensure Visible
-						if( (string) $product->is_visible != 'true' ) { continue; }
+						if( $product->is_visible != 'true' && $product->is_visible != '1' ) { continue; }
 
 						// Check For Image
-						$image = '<p>No image available</p>';
-						if( isset( $product->images->link ) ) {
-							$image = self::GetImage($product->images->link);
+						$image = self::GetImage( $product );
+						if(empty($image)) {
+							$image = '<p>No image available</p>';
 						}
 
 						// Output The Row
