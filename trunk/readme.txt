@@ -11,7 +11,7 @@ Integrate Bigcommerce hosted eCommerce shopping cart product images and links in
 
 == Description ==
 
-> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate this plugin!__</a>
+> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform"><strong>Please rate this plugin!</strong></a>
 
 You want to spend your time writing the best content, not hunting for the link or image for the product you're blogging about. This plugin is powerful and simple to set up. It's a must have if you use WordPress and Bigcommerce.
 
