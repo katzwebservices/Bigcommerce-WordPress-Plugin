@@ -1,31 +1,10 @@
 <div class="wrap">
 
-	<h2 style="line-height:48px;"><img class="alignleft" alt="" src="<?php echo plugins_url('favicon.png', BIGCOMMERCE_PLUGIN_FILE); ?>" width="48" height="48" /> Bigcommerce for WordPress</h2>
+	<?php kws_show_rating_box('Bigcommerce for WordPress', 'interspire-bigcommerce', BIGCOMMERCE_PLUGIN_VERSION); ?>
 
-	<?php $is_cache_built = Bigcommerce_settings::show_configuration_check(); ?>
+	<h2 style="line-height:48px;"><img class="alignleft" alt="" src="<?php echo plugins_url('favicon.png', BIGCOMMERCE_PLUGIN_FILE); ?>" width="48" height="48" /> <?php _e('Bigcommerce for WordPress', 'wpinterspire'); ?></h2>
 
-	<hr />
-
-	<?php if( self::$configured ) { ?>
-
-	<p>
-		<?php
-
-		echo $is_cache_built ? 'Your cache has been built:</p>'
-				. '<p>'.Bigcommerce_parser::BuildCategoriesSelect( false ).'</p>'
-				. '<p>'.Bigcommerce_parser::BuildProductsSelect( false ).'</p>'
-				. '<p><strong>Has the list changed?</strong>'
-			: 'Your cache has not yet been built.';
-		?>
-		<a href='<?php echo admin_url( 'admin-ajax.php?action=bigcommerce_rebuild&amp;TB_iframe=true&amp;width=600&amp;height=800' ); ?>' class='thickbox' title="<?php echo  $is_cache_built ? 'Re-build your products list' : 'Build your products list'; ?>">
-			<?php echo  $is_cache_built ? 'Re-build your Bigcommerce lists' : 'Build your products list'; ?>
-		</a><br />
-		<small>
-			<?php _e( 'Note: this may take some time, depending on the size of your products.', 'wpinterspire' ); ?>
-		</small>
-	</p>
-
-	<?php } else { ?>
+	<?php if(! self::$configured ) { ?>
 
 	<h3>
 		<?php _e( 'This Plugin requires a Bigcommerce account.', 'wpinterspire' ); ?>
@@ -48,9 +27,9 @@
 	</p>
 
 	<?php } ?>
-	<hr />
-
-	<h3><?php _e( 'Store Settings', 'wpinterspire' ); ?></h3>
+	<div class="clear divider"></div>
+	<h2><?php _e( 'Store Settings', 'wpinterspire' ); ?></h2>
+	<?php $is_cache_built = Bigcommerce_settings::show_configuration_check(); ?>
 	<form method="post" action="options.php">
 		<input type='hidden' name='wpinterspire[configured]' value='<?php echo Bigcommerce_settings::$configured; ?>' />
 		<?php
@@ -140,6 +119,27 @@
 				value="<?php _e( 'Save Changes', 'wpinterspire' ); ?>" />
 		</p>
 	</form>
+
+	<?php if( self::$configured ) { ?>
+	<hr />
+	<p>
+		<?php
+
+		echo $is_cache_built ? 'Your cache has been built:</p>'
+				. '<p>'.Bigcommerce_parser::BuildCategoriesSelect( false ).'</p>'
+				. '<p>'.Bigcommerce_parser::BuildProductsSelect( false ).'</p>'
+				. '<p><strong>Has the list changed?</strong>'
+			: 'Your cache has not yet been built.';
+		?>
+		<a href='<?php echo admin_url( 'admin-ajax.php?action=bigcommerce_rebuild&amp;TB_iframe=true&amp;width=600&amp;height=800' ); ?>' class='thickbox' title="<?php echo  $is_cache_built ? 'Re-build your products list' : 'Build your products list'; ?>">
+			<?php echo  $is_cache_built ? 'Re-build your Bigcommerce lists' : 'Build your products list'; ?>
+		</a><br />
+		<small>
+			<?php _e( 'Note: this may take some time, depending on the size of your products.', 'wpinterspire' ); ?>
+		</small>
+	</p>
+
+	<?php } ?>
 	<style>
 	.wrap select {width: 400px; max-width: 400px; }
 	</style>

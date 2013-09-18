@@ -4,7 +4,7 @@ Plugin Name: Bigcommerce
 Plugin URI: http://www.seodenver.com/interspire-bigcommerce-wordpress/
 Description: Integrate Bigcommerce products into your WordPress pages and posts.
 Author: Katz Web Services, Inc.
-Version: 1.7
+Version: 1.7.1
 Author URI: http://www.katzwebservices.com
 License: GPLv2
 
@@ -20,6 +20,7 @@ GNU General Public License for more details.
 */
 
 define('BIGCOMMERCE_PLUGIN_FILE', __FILE__);
+define('BIGCOMMERCE_PLUGIN_VERSION', '1.7.1');
 
 // Includes
 require_once( 'lib/class.api.php' );
@@ -28,6 +29,8 @@ require_once( 'lib/class.media.php' );
 require_once( 'lib/class.parser.php' );
 require_once( 'lib/class.settings.php' );
 require_once( 'lib/class.ajax.php' );
+include_once( 'lib/kwsratingbox.php' );
+include_once( 'lib/presstrends.php' );
 
 // WP Hooks - Settings
 add_action( 'admin_init', array( 'Bigcommerce_settings', 'admin_init' ) );

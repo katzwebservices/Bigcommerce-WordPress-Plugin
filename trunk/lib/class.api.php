@@ -143,7 +143,7 @@ class Bigcommerce_api {
 				$low = $low + 1;
 				$high = $per_page * ($i + 1);
 				if($high > $count) { $high = $count; }
-				printf('<li>Fetching: categories %s - %s (page %d of %d)', $low, $high, ($i + 1), $pageCount);
+				printf(__('<li>Fetching: categories %s - %s (page %d of %d)', 'wpinterspire'), $low, $high, ($i + 1), $pageCount);
 				ob_flush();
 			}
 
@@ -153,13 +153,14 @@ class Bigcommerce_api {
 			$responses = @array_merge($responses, json_decode($response));
 
 			if($show_output) {
-				echo '&hellip;done.</li>';
+				echo __('&hellip;done.', 'wpinterspire');
+				echo '</li>';
 				ob_flush();
 			}
 		}
 
 		// Handle Lack Of Response
-		if( ! $response || empty( $response ) ) { return false; }
+		if( !isset($response) || empty( $response ) ) { return false; }
 
 	    return $responses;
 	}

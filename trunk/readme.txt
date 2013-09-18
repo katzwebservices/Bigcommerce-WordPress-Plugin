@@ -3,19 +3,21 @@ Contributors: katzwebdesign, katzwebservices
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=Bigcommerce%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: ecommerce, interspire, bigcommerce, big commerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant
 Requires at least: 3.2
-Tested up to: 3.6
-Stable tag: 1.7
+Tested up to: 3.6.1
+Stable tag: 1.7.1
 License: GPLv2
 
 Integrate Bigcommerce hosted eCommerce shopping cart product images and links into WordPress.
 
 == Description ==
 
-You want to spend your time writing the best content, not hunting for the link or image for the product you're blogging about. This Plugin is powerful and simple to set up. It's a must have if you use WordPress and Bigcommerce.
+> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate this plugin!__</a>
+
+You want to spend your time writing the best content, not hunting for the link or image for the product you're blogging about. This plugin is powerful and simple to set up. It's a must have if you use WordPress and Bigcommerce.
 
 <h3>Easily find and link to your Bigcommerce products from within WordPress</h3>
 
-This Plugin adds a button to the post/page editor that makes it easy to link to your products.
+This plugin adds a button to the post/page editor that makes it easy to link to your products.
 
 *	Set custom link text.
 *	Choose to open the link in the same window or a new window.
@@ -37,17 +39,17 @@ Bigcommerce is the world’s leading e-commerce platform, powering more than 30,
 
 ### Update Instructions
 
-1. Click to have the Plugin updated.
+1. Click to have the plugin updated.
 1. Click Bigcommerce on the administration sidebar menu. Click the Settings tab. Check to ensure that your settings are properly configured. Click to rebuild your products list.
 
 ### New Automatic Installation
 
-1. Log in to your blog and go to the Plugins page.
+1. Log in to your blog and go to the plugins page.
 1. Click Add New button.
 1. Search for Benchmark Email Lite.
 1. Click Install Now link.
 1. (sometimes required) Enter your FTP or FTPS username and password, as provided by your web host.
-1. Click Activate Plugin link.
+1. Click Activate plugin link.
 1. If you are creating a new Bigcommerce account, please click the `Visit Bigcommerce.com to start your own online store today!` link at the top of the Settings page to do so.
 1. Obtain your Bigcommerce API Key by following the instructions adjacent to that field.
 1. Back on your site, click Bigcommerce on the administration sidebar menu. Click the Settings tab. Check to ensure that your settings are properly configured. Click to rebuild your products list.
@@ -55,9 +57,9 @@ Bigcommerce is the world’s leading e-commerce platform, powering more than 30,
 
 ### New Manual Installation
 
-1. Download the Plugin and un-zip it.
+1. Download the plugin and un-zip it.
 1. Upload the `interspire-bigcommerce` folder to your `wp-content/plugins/` directory.
-1. Activate the Plugin through the Plugins menu in WordPress.
+1. Activate the plugin through the plugins menu in WordPress.
 1. If you are creating a new Bigcommerce account, please click the `Visit Bigcommerce.com to start your own online store today!` link at the top of the Settings page to do so.
 1. Obtain your Bigcommerce API Key by following the instructions adjacent to that field.
 1. Back on your site, click Bigcommerce on the administration sidebar menu. Click the Settings tab. Check to ensure that your settings are properly configured. Click to rebuild your products list.
@@ -65,7 +67,7 @@ Bigcommerce is the world’s leading e-commerce platform, powering more than 30,
 
 == Screenshots ==
 
-1. This is the Plugin settings page.
+1. This is the plugin settings page.
 2. This is the icon you click to open the Add Product popup.
 3. This is the Add Product popup showing how to add a listing of products by category.
 4. This is the product category shortcode that gets created by the Add Product popup.
@@ -81,7 +83,19 @@ Bigcommerce is the world’s leading e-commerce platform, powering more than 30,
 
 = Where can I view or submit bugs or feature requests? =
 
-You may use [the Support tab](http://wordpress.org/support/plugin/interspire-bigcommerce "Open the Support tab").
+Please submit issues <a href="https://github.com/katzwebservices/Bigcommerce-WordPress-Plugin/issues?state=open">on the plugin's Github development page</a>.
+
+= This plugin uses PressTrends =
+By installing this plugin, you agree to allow gathering anonymous usage stats through PressTrends. The data gathered is the active Theme name, WordPress version, plugins installed, and other metrics. This allows the developer of this plugin to know what compatibility issues to test for.
+
+To remove PressTrends integration, add the code to your theme's functions.php file:
+
+`
+add_action('plugins_loaded', 'remove_CTCTCF7_presstrends_plugin', 20);
+function remove_CTCTCF7_presstrends_plugin() {
+	remove_action('admin_init', array('CTCTCF7', 'presstrends_plugin'));
+}
+`
 
 = What are the system requirements =
 
@@ -90,7 +104,7 @@ You may use [the Support tab](http://wordpress.org/support/plugin/interspire-big
 
 = When should I rebuild my products/cache? =
 
-* Rebuild your products list whenever you upgrade the Plugin, or whenever you add new products or change existing product names, links, or images within your store.
+* Rebuild your products list whenever you upgrade the plugin, or whenever you add new products or change existing product names, links, or images within your store.
 
 = How can I replace the "No Image Available" image with my own? =
 Add a filter on `bigcommerce_no_image` that includes HTML output of an image file of your choosing.
@@ -103,7 +117,7 @@ function replace_bigcommerce_no_image_with_my_image($content) {
 
 = How can I change the product listings by category HTML? =
 
-* In version 1.5 we added a filter to permit template customization using external code. This allows you to customize the product rows HTML while continuing to keep the Plugin up to date. Use the following code in a new Plugin file, for example: `wp-content/plugins/my_custom_plugin/my_custom_plugin.php`
+* In version 1.5 we added a filter to permit template customization using external code. This allows you to customize the product rows HTML while continuing to keep the plugin up to date. Use the following code in a new plugin file, for example: `wp-content/plugins/my_custom_plugin/my_custom_plugin.php`
 
 `
 <?php
@@ -189,6 +203,11 @@ function bigcommerce_product_row( $data, $storepath ) {
 
 == Changelog ==
 
+= 1.7.1 on 2013-09-17 =
+* <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate the plugin!__</a>
+* Added: Rating box that also alerts you to new versions on the plugin page.
+* Modified: Moved items around on the plugin page.
+
 = 1.7 on 2013-08-19 =
 * Improved: Now uses a script that allows searching of products and categories to insert
 * Improved: Now you can watch the generation of the product and category list while it's processing. No more guessing whether it's working or not.
@@ -224,7 +243,7 @@ function bigcommerce_product_row( $data, $storepath ) {
 
 = 1.4 on 2012-11-27 =
 
-* Fixed: New contributor, beAutomated, rewrote most of the Plugin to get everything up to date and working again.
+* Fixed: New contributor, beAutomated, rewrote most of the plugin to get everything up to date and working again.
 * Updated: Removed the copy of the WP image editing, as that can be triggered following product image insert, utilizing the latest WordPress tools for doing so.
 * Added: Support for the latest Bigcommerce API, powered by cURL.
 
@@ -294,6 +313,12 @@ function bigcommerce_product_row( $data, $storepath ) {
 
 == Upgrade Notice ==
 
+= 1.7.1 on 2013-09-17 =
+* <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate the plugin!__</a>
+* Added: Rating box that also alerts you to new versions on the plugin page.
+* Modified: Moved items around on the plugin page.
+* Added: PressTrends service to improve compatibility and support.
+
 = 1.7 on 2013-08-19 =
 * Improved: Now uses a script that allows searching of products and categories to insert
 * Improved: Now you can watch the generation of the product and category list while it's processing. No more guessing whether it's working or not.
@@ -321,7 +346,7 @@ function bigcommerce_product_row( $data, $storepath ) {
 
 = 1.4 =
 
-* This Plugin has been essentially rewritten by beAutomated, in partnership with Katz Web Services.
+* This plugin has been essentially rewritten by beAutomated, in partnership with Katz Web Services.
 
 = 1.3 =
 

@@ -149,7 +149,7 @@ class Bigcommerce_settings {
 
 		// Output
 		echo self::make_notice_box(
-			$content, ( ( self::$configured ) ? false : true )
+			$content, ( ( self::$configured ) ? false : true)
 		);
 
 		return $built;
@@ -162,14 +162,15 @@ class Bigcommerce_settings {
 	}
 
 	// Generic Notice Box Maker
-    function make_notice_box( $content, $error=false ) {
+    function make_notice_box( $content, $error=false, $inline = false ) {
         $output = '';
         if( ! $error ) {
-        	$output .= '<div id="message" class="updated">';
+        	$output .= '<div id="message" class="updated';
         } else {
-            $output .= '<div id="messgae" class="error">';
+            $output .= '<div id="messgae" class="error';
         }
-        $output .= '<p>' . $content . '</p></div>';
+        $output .= $inline ? ' inline">' : '">';
+        $output .= wpautop($content) . '</div>';
         return $output;
     }
 }
