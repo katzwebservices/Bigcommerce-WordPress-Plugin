@@ -29,7 +29,7 @@ function bigcommerce_presstrends_plugin() {
 		}
 
 		// CHANGE __FILE__ PATH IF LOCATED OUTSIDE MAIN PLUGIN FILE
-		$plugin_data         = get_plugin_data( __FILE__ );
+		$plugin_data         = get_plugin_data( BIGCOMMERCE_PLUGIN_FILE );
 		$posts_with_comments = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type='post' AND comment_count > 0" );
 		$data                = array(
 		    'url'             => stripslashes( str_replace( array( 'http://', '/', ':' ), '', site_url() ) ),
