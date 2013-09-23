@@ -1,0 +1,83 @@
+<?php
+/*
+Plugin Name: Customize Bigcommerce Product Listings Template
+Plugin URI: http://wordpress.org/extend/plugins/interspire-bigcommerce/
+Description: Customizes the Bigcommerce product listings template.
+Version: 1.1
+Author: Myself
+Author URI: http://www.mysite.com/contact/
+License: GPL2
+*/
+
+add_filter( 'bigcommerce_display_product_row', 'customize_bigcommerce_product_row', 10, 3 );
+
+/**
+ * Customize the output of the Bigcommerce plugin's product row.
+ * @param  string $html      Existing output HTML
+ * @param  object $data      `is_featured` => 'featured' or '', `name`, `sku`, `price` (with currency symbol), `condition`, `availability`, `link`, `image` (URL path),  `warranty`, `rating` (string description)
+ * @param  string $storepath URL of store, with trailing slash
+ * @return string Updated HTML output
+ */
+function customize_bigcommerce_product_row( $html, $data, $storepath ) {
+
+    // If there's an image, $image is an image tag wrapped with a link to the full image
+    if(!empty($data->image)) {
+        $image = sprintf("<a href='{$data->image}' title='%s'>
+                            <img src='{$data->image}' style='float:left;max-width:35%%;max-height:200px;padding:10px;' class='bigcommerce_image' alt='%s' />
+                </a>", __( 'Click to enlarge', 'wpinterspire' ), esc_html( $data->name ));
+    } else {
+    // Otherwise, $image is the no image available image.
+        $image = apply_filters( 'bigcommerce_no_image', sprintf("<img src='".plugins_url( 'no_image_available.png', BIGCOMMERCE_PLUGIN_FILE )."' style='float:left;max-width:35%%;max-height:200px;padding:10px;' class='bigcommerce_image' alt='%s' />", esc_html( $data->name )));
+    }
+
+    return sprintf("
+        <div class='bigcommerce-row'>
+            <h2 class='title {$data->is_featured}'>{$data->name}</h2>
+            <div style='padding:10px 20px;'>
+                %s
+                <table style='border:0;width:55%%;float:right;'>
+                    <tbody>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->sku}</td>
+                        </tr>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->availability}</td>
+                        </tr>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->condition}</td>
+                        </tr>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->price}</td>
+                        </tr>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->warranty}</td>
+                        </tr>
+                        <tr>
+                            <th>%s</th>
+                            <td>{$data->rating}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><a href='{$storepath}{$data->link}/' title='%s'>%s</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style='clear:both;'></div>
+            </div>
+        </div>\n",
+        $image,
+        __( 'SKU', 'wpinterspire' ),
+        __( 'Availability', 'wpinterspire' ),
+        __( 'Condition', 'wpinterspire' ),
+        __( 'Price', 'wpinterspire' ),
+        __( 'Warranty', 'wpinterspire' ),
+        __( 'Rating', 'wpinterspire' ),
+        sprintf( __( 'View %s in the store', 'wpinterspire' ), esc_html( $data->name ) ),
+        __( 'Buy Now', 'wpinterspire' )
+    );
+}

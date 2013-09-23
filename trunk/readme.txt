@@ -1,17 +1,17 @@
 === Bigcommerce ===
 Contributors: katzwebdesign, katzwebservices
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=Bigcommerce%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
-Tags: ecommerce, interspire, bigcommerce, big commerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant
+Tags: ecommerce, bigcommerce, big commerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant
 Requires at least: 3.2
 Tested up to: 3.6.1
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv2
 
 Integrate Bigcommerce hosted eCommerce shopping cart product images and links into WordPress.
 
 == Description ==
 
-> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform"><strong>Please rate this plugin!</strong></a>
+> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate this plugin!__</a>
 
 You want to spend your time writing the best content, not hunting for the link or image for the product you're blogging about. This plugin is powerful and simple to set up. It's a must have if you use WordPress and Bigcommerce.
 
@@ -117,91 +117,18 @@ function replace_bigcommerce_no_image_with_my_image($content) {
 
 = How can I change the product listings by category HTML? =
 
-* In version 1.5 we added a filter to permit template customization using external code. This allows you to customize the product rows HTML while continuing to keep the plugin up to date. Use the following code in a new plugin file, for example: `wp-content/plugins/my_custom_plugin/my_custom_plugin.php`
+__To modify the output:__
 
-`
-<?php
-/*
-Plugin Name: Customize Bigcommerce Product Listings Template
-Plugin URI: http://wordpress.org/extend/plugins/interspire-bigcommerce/
-Description: Customizes the Bigcommerce product listings template.
-Version: 1.0
-Author: Myself
-Author URI: http://www.mysite.com/contact/
-License: GPL2
-*/
-add_filter( 'bigcommerce_display_product_row', 'bigcommerce_product_row', 10, 1 );
-function bigcommerce_product_row( $data, $storepath ) {
-		if(!empty($data->image)) {
-			$image = sprintf("<a href='{$data->image}' title='%s'>
-								<img src='{$data->image}' style='float:left;max-width:35%%;max-height:200px;padding:10px;' class='bigcommerce_image' alt='%s' />
-					</a>", __( 'Click to enlarge', 'wpinterspire' ), esc_html( $data->name ));
-		} else {
-			$image = apply_filters( 'bigcommerce_no_image', sprintf("<img src='".plugins_url( 'no_image_available.png', BIGCOMMERCE_PLUGIN_FILE )."' style='float:left;max-width:35%%;max-height:200px;padding:10px;' class='bigcommerce_image' alt='%s' />", esc_html( $data->name )));
-		}
-
-		return apply_filters(
-			'bigcommerce_display_product_row',
-			sprintf(
-				"
-					<div class='bigcommerce-row'>
-						<h2 class='title {$data->is_featured}'>{$data->name}</h2>
-						<div style='padding:10px 20px;'>
-							%s
-							<table style='border:0;width:55%%;float:right;'>
-								<tbody>
-									<tr>
-										<th>%s</th>
-										<td>{$data->sku}</td>
-									</tr>
-									<tr>
-										<th>%s</th>
-										<td>{$data->availability}</td>
-									</tr>
-									<tr>
-										<th>%s</th>
-										<td>{$data->condition}</td>
-									</tr>
-									<tr>
-										<th>%s</th>
-										<td>{$data->price}</td>
-									</tr>
-									<tr>
-										<th>%s</th>
-										<td>{$data->warranty}</td>
-									</tr>
-									<tr>
-										<th>%s</th>
-										<td>{$data->rating}</td>
-									</tr>
-									<tr>
-										<th></th>
-										<td><a href='{$storepath}{$data->link}/' title='%s'>%s</a></td>
-									</tr>
-								</tbody>
-							</table>
-							<div style='clear:both;'></div>
-						</div>
-					</div>
-				",
-				$image,
-				__( 'SKU', 'wpinterspire' ),
-				__( 'Availability', 'wpinterspire' ),
-				__( 'Condition', 'wpinterspire' ),
-				__( 'Price', 'wpinterspire' ),
-				__( 'Warranty', 'wpinterspire' ),
-				__( 'Rating', 'wpinterspire' ),
-				sprintf( __( 'View %s in the store', 'wpinterspire' ), esc_html( $data->name ) ),
-				__( 'Buy Now', 'wpinterspire' )
-			),
-			$data,
-			$storepath
-		);
-}
-?>
-`
+* Find the file `customize-category-output.php.txt` in this plugin folder.
+* Copy the file to your `/wp-content/plugins/` directory
+* Rename the file by removing `.txt`. The file name should be `customize-category-output.php`
+* Modify the code inside the file to your heart's content
+* Activate the "Customize Bigcommerce Product Listings Template" plugin in your WordPress administration
 
 == Changelog ==
+
+= 1.7.2 on 2013-09-23 =
+* Updated the plugin to include a sample plugin file. See the <a href="http://wordpress.org/plugins/interspire-bigcommerce/faq/">plugin FAQ</a> "How can I change the product listings by category HTML?"
 
 = 1.7.1 on 2013-09-17 =
 * <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate the plugin!__</a>
@@ -312,6 +239,9 @@ function bigcommerce_product_row( $data, $storepath ) {
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.7.2 on 2013-09-23 =
+* Updated the plugin to include a sample plugin file with improved code. See the <a href="http://wordpress.org/plugins/interspire-bigcommerce/faq/">plugin FAQ</a> "How can I change the product listings by category HTML?"
 
 = 1.7.1 on 2013-09-17 =
 * <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate the plugin!__</a>
