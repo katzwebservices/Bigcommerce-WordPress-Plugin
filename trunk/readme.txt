@@ -3,15 +3,15 @@ Contributors: katzwebdesign, katzwebservices
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=Bigcommerce%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: ecommerce, bigcommerce, big commerce, e-commerce, woocommerce, shop, cart, paypal, authorize, authorize.net, stock control, ecommerce, zencart, volition, shopsite, oscommerce, zen cart, prestashop, merchant
 Requires at least: 3.2
-Tested up to: 3.6.1
-Stable tag: 1.7.2
+Tested up to: 3.8
+Stable tag: 1.7.3
 License: GPLv2
 
 Integrate Bigcommerce hosted eCommerce shopping cart product images and links into WordPress.
 
 == Description ==
 
-> <a href="http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform">__Please rate this plugin!__</a>
+> __[Please rate this plugin!](http://wordpress.org/support/view/plugin-reviews/interspire-bigcommerce?rate=5#postform)__
 
 You want to spend your time writing the best content, not hunting for the link or image for the product you're blogging about. This plugin is powerful and simple to set up. It's a must have if you use WordPress and Bigcommerce.
 
@@ -127,6 +127,9 @@ __To modify the output:__
 
 == Changelog ==
 
+= 1.7.3 on 2013-12-17 =
+* Fixed PHP 5.4 warnings
+
 = 1.7.2 on 2013-09-23 =
 * Updated the plugin to include a sample plugin file. See the <a href="http://wordpress.org/plugins/interspire-bigcommerce/faq/">plugin FAQ</a> "How can I change the product listings by category HTML?"
 
@@ -239,6 +242,9 @@ __To modify the output:__
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.7.3 on 2013-12-17 =
+* Fixed PHP 5.4 warnings
 
 = 1.7.2 on 2013-09-23 =
 * Updated the plugin to include a sample plugin file with improved code. See the <a href="http://wordpress.org/plugins/interspire-bigcommerce/faq/">plugin FAQ</a> "How can I change the product listings by category HTML?"

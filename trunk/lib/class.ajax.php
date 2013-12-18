@@ -1,7 +1,7 @@
 <?php
 
 class Bigcommerce_ajax {
-	public function BuildAjaxiFrame() {
+	static public function BuildAjaxiFrame() {
 		@set_time_limit(0);
 		@ob_implicit_flush(1);
 		ob_start();
@@ -47,7 +47,7 @@ class Bigcommerce_ajax {
 		die();// Necessary to avoid "0" WordPress output.
 	}
 
-	public function BuildAjax() {
+	static public function BuildAjax() {
 		@wp_iframe( array('Bigcommerce_ajax', 'BuildAjaxiFrame') );
 	}
 }

@@ -7,7 +7,7 @@ class Bigcommerce_settings {
 	static $errors = array();
 
 	// Gets Stored Settings, Failover To Defaults
-	function get_options() {
+	static function get_options() {
 		if(!empty(self::$options)) {
 			return self::$options;
 		}
@@ -26,7 +26,7 @@ class Bigcommerce_settings {
 	}
 
 	// Gets Stored Settings, Failover To Defaults
-	function get_option($key) {
+	static function get_option($key) {
 
 		$options = self::get_options();
 
@@ -45,7 +45,7 @@ class Bigcommerce_settings {
 	}
 
 	// Tied To WP Hook By The Same Name
-	function admin_init() {
+	static function admin_init() {
 		global $pagenow;
 
 		// Handles Saving Of Settings
@@ -80,24 +80,24 @@ class Bigcommerce_settings {
     }
 
 	// Sanitizes Setting Value Submissions
-	function sanitize_settings( $input ) {
+	static function sanitize_settings( $input ) {
 		return $input;
 	}
 
 	// Checks Saved Settings
-	function CheckSettings() {
-    	return ( Bigcommerce_api::GetCategories(!isset($_GET['settings-updated'])) );
+	static function CheckSettings() {
+    	return ( Bigcommerce_api::GetCategoriesCount(!isset($_GET['settings-updated'])) );
 	}
 
 	// Tied To WP Hook By The Same Name - Adds Settings Link
-	function plugin_action_links( $links ) {
+	static function plugin_action_links( $links ) {
 		$links['settings'] = '<a href="options-general.php?page=bigcommerce">'
 			. __( 'Settings', 'wpinterspire' ) . '</a>';
 		return $links;
 	}
 
 	// Tied To WP Hook By The Same Name - Adds Admin Submenu Link
-    function admin_menu() {
+    static function admin_menu() {
 		add_options_page(
 			__('Bigcommerce', 'wpinterspire'),
 			__('Bigcommerce', 'wpinterspire'),
@@ -108,7 +108,7 @@ class Bigcommerce_settings {
     }
 
     // Tied To Admin Submenu Link
-	function admin_page() {
+	static function admin_page() {
     	$options = self::get_options();
 		$vendors = array(
 			'http://katz.si/bigc',
@@ -117,7 +117,7 @@ class Bigcommerce_settings {
     }
 
 	// Displays The Configuration Check
-	function show_configuration_check() {
+	static function show_configuration_check() {
 
 		// Configured
 		if( self::$configured ) {
@@ -155,14 +155,14 @@ class Bigcommerce_settings {
 		return $built;
 	}
 
-	function is_cache_built() {
+	static function is_cache_built() {
 		$cat_select = get_option( 'wpinterspire_categoryselect' );
 		$prod_select = get_option( 'wpinterspire_productselect' );
 		return (!empty($cat_select) && !empty($prod_select));
 	}
 
 	// Generic Notice Box Maker
-    function make_notice_box( $content, $error=false, $inline = false ) {
+    static function make_notice_box( $content, $error=false, $inline = false ) {
         $output = '';
         if( ! $error ) {
         	$output .= '<div id="message" class="updated';
@@ -175,4 +175,3 @@ class Bigcommerce_settings {
     }
 }
 
-?>

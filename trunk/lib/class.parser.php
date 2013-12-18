@@ -4,7 +4,7 @@
 class Bigcommerce_parser {
 
 	// Cleans Store URL
-	public function storepath( $api=false ) {
+	static public function storepath( $api=false ) {
     	$options = Bigcommerce_settings::get_options();
 
 		// Ensure API URL Is Secure
@@ -28,7 +28,7 @@ class Bigcommerce_parser {
 	}
 
 	// Converts JSON To Object
-	public function JSONToObject( $json ) {
+	static public function JSONToObject( $json ) {
 
 		// Try To Convert
 		try {
@@ -52,7 +52,7 @@ class Bigcommerce_parser {
 	}
 
 	// Converts XML To Object
-	public function XmlToObject( $xml, $test ) {
+	static public function XmlToObject( $xml, $test ) {
 
 		// Try To Convert
 		try {
@@ -76,12 +76,12 @@ class Bigcommerce_parser {
 	}
 
 	// Get an array of all image paths
-	public function GetImages( $link, $all = false ) {
+	static public function GetImages( $link, $all = false ) {
 		return self::GetImage($link, true);
 	}
 
 	// Gets Live Image URL
-	public function GetImage( $link, $all = false ) {
+	static public function GetImage( $link, $all = false ) {
 		if(is_object($link)) {
 			if(!empty($link->images->url)) {
 				$link = $link->images->url;
@@ -104,7 +104,7 @@ class Bigcommerce_parser {
 
 
 	// Builds Select Box For Products
-	public function BuildProductsSelect( $rebuild, $show_output = false) {
+	static public function BuildProductsSelect( $rebuild, $show_output = false) {
 
 		// Not Forcing Rebuild
 		if( ! $rebuild ) {
@@ -123,10 +123,7 @@ class Bigcommerce_parser {
 		';
 
 		$hide_invisible = Bigcommerce_settings::get_option('hideinvisible');
-		#echo '<pre>';
-		#print_r($items);
-		#echo '</pre>';
-		#die();
+
 		foreach( $items as $item ) {
 			if( ! isset( $item->name ) ) { continue; }
 			$value = $item->custom_url;
@@ -149,7 +146,7 @@ class Bigcommerce_parser {
 	}
 
 	// Builds Select Box For Categories
-	public function BuildCategoriesSelect( $rebuild, $show_output = false ) {
+	static public function BuildCategoriesSelect( $rebuild, $show_output = false ) {
 
 		// Not Forcing Rebuild
 		if( ! $rebuild ) {
@@ -202,7 +199,7 @@ class Bigcommerce_parser {
 	}
 
 	// Outputs Products In a Category
-	function DisplayProductsInCategory( $catid ) {
+	static function DisplayProductsInCategory( $catid ) {
 		$output = '';
 
 		// Find Products

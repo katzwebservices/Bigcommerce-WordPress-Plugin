@@ -4,7 +4,7 @@
 class Bigcommerce_api {
 
 	// Communications
-	private function communicate( $path, $cache = true, $filters = array()) {
+	static private function communicate( $path, $cache = true, $filters = array()) {
 		$key = 'ispr'.sha1('wpinterspire_'.$path.implode('.', $filters));
 
 		$cached_data = get_option($key);
@@ -45,7 +45,7 @@ class Bigcommerce_api {
 	}
 
 	// Get Product Image
-	function GetDetail( $uri ) {
+	static function GetDetail( $uri ) {
 
 		// Query Bigcommerce API
 		$response = self::communicate( $uri );
@@ -57,7 +57,7 @@ class Bigcommerce_api {
 		return $response;
 	}
 
-	function GetProductsCount($cache = true) {
+	static function GetProductsCount($cache = true) {
 		$product_count = self::communicate( 'products/count.json', $cache);
 		$product_count = json_decode($product_count);
 		if(isset($product_count->count)) {
@@ -69,7 +69,7 @@ class Bigcommerce_api {
 	}
 
 	// Get Products
-	function GetProducts($cache = true, $show_output = false) {
+	static function GetProducts($cache = true, $show_output = false) {
 
 		$per_page = 200;
 
@@ -110,7 +110,7 @@ class Bigcommerce_api {
 	    return $responses;
 	}
 
-	function GetCategoriesCount($cache = true) {
+	static function GetCategoriesCount($cache = true) {
 		$cat_count = self::communicate( 'categories/count.json', $cache);
 		$cat_count = json_decode($cat_count);
 		if(isset($cat_count->count)) {
@@ -122,7 +122,7 @@ class Bigcommerce_api {
 	}
 
 	// Get Categories
-	function GetCategories($cache = true, $show_output = false) {
+	static function GetCategories($cache = true, $show_output = false) {
 
 		$per_page = 50;
 

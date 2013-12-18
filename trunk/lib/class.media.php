@@ -4,19 +4,19 @@
 class Bigcommerce_media {
 
 	// Tied To WP Hook By The Same Name - Adds Product Images Tab To Media Popup
-	function media_upload_tabs( $tabs ) {
+	static function media_upload_tabs( $tabs ) {
 		return array_merge(
 			$tabs, array( 'wpinterspire' => __( 'Bigcommerce', 'wpinterspire' ) )
 		);
 	}
 
 	// Tied To WP Hook By The Same Name - Adds Menu Item For Processing Media
-	function media_upload_wpinterspire() {
+	static function media_upload_wpinterspire() {
 		return wp_iframe( array( 'Bigcommerce_media', 'media_process' ) );
 	}
 
 	// Tied To WP Hook By The Same Name - Ads Icon To WYSIWYG Posts/Pages Editor
-	function media_buttons_context( $context ) {
+	static function media_buttons_context( $context ) {
 		if( ! Bigcommerce_settings::$configured ) { return $context; }
 		return $context . '
 			<style>
@@ -35,21 +35,22 @@ class Bigcommerce_media {
 	}
 
 	// Is the current page a page where we want to load the media functions?
-	function is_bigcommerce_page() {
+	static function is_bigcommerce_page() {
 		global $pagenow,$post;
 		return (
 			(in_array($pagenow, array('post.php', 'post-new.php')) && isset($post) && !empty($post->ID)) ||
 			($pagenow === 'options-general.php' && isset($_GET['page']) && $_GET['page'] === 'bigcommerce')
 		);
 	}
+
 	// Tied To WP Hook By The Same Name - Admin Area Footer
-	function admin_footer() {
+	static function admin_footer() {
 		if(!self::is_bigcommerce_page()) { return; }
 		$storepath = Bigcommerce_parser::storepath();
 		require( dirname( __FILE__ ) . '/../views/mce-popup.html.php' );
 	}
 
-	function print_scripts() {
+	static function print_scripts() {
 		global $pagenow,$post;
 
 		if(!self::is_bigcommerce_page()) { return; }
@@ -59,7 +60,7 @@ class Bigcommerce_media {
 	}
 
 	// Presents Product Image Choices
-	function media_process() {
+	static function media_process() {
 
 		echo sprintf('<div class="updated" style="margin-top:20px" id="wpint_loading_images"><p>%s</p></div>', __('Loading images&hellip;', 'wpinterspire'));
 
@@ -138,5 +139,3 @@ class Bigcommerce_media {
 		require( dirname( __FILE__ ) . '/../views/media.html.php' );
 	}
 }
-
-?>

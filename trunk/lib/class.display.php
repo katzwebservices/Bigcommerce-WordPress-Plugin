@@ -4,7 +4,7 @@
 class Bigcommerce_display {
 
 	// Handle Shortcodes
-	function shortcode( $atts, $content = '') {
+	static function shortcode( $atts, $content = '') {
 		extract(
 			shortcode_atts(
 				array(
@@ -32,7 +32,7 @@ class Bigcommerce_display {
 	}
 
 	// Give Thanks Footer Link
-	function wp_footer() {
+	static function wp_footer() {
 		$options = Bigcommerce_settings::get_options();
 		if( ! empty( $options->showlink ) && $options->showlink == 'yes' ) {
 			echo '
@@ -46,7 +46,7 @@ class Bigcommerce_display {
 	}
 
 	// Products Listings Row
-	function DisplayProductRow( $data ) {
+	static function DisplayProductRow( $data ) {
 		$storepath = Bigcommerce_parser::storepath();
 
 		if(!empty($data->image)) {
