@@ -137,7 +137,7 @@ Version: 3.4.2 Timestamp: Mon Aug 12 15:04:12 PDT 2013
     width: 100%;
     margin-top: -1px;
     position: absolute;
-    z-index: 9999;
+    z-index: 100051;
     top: 100%;
 
     background: #fff;
